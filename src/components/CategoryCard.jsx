@@ -4,10 +4,10 @@ export default function CategoryCard({ category, isSelected, onSelect }) {
   return (
     <motion.button
       type="button"
-      whileHover={{ scale: 1.03, y: -2, boxShadow: '0 16px 40px -18px rgba(59, 130, 246, 0.35)' }}
+      whileHover={{ scale: 1.03, y: -2, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(category.value)}
-      className={`group flex w-full flex-col overflow-hidden rounded-[12px] border bg-white text-left shadow-[0_8px_24px_-12px_rgba(15,23,42,0.18)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:bg-slate-900 dark:shadow-[0_12px_30px_-16px_rgba(2,6,23,0.8)] ${isSelected ? 'border-brand-500 ring-2 ring-brand-500/20' : 'border-slate-200 hover:border-brand-400 dark:border-slate-700'}`}
+      className={`group flex w-full flex-col overflow-hidden rounded-[12px] border border-[color:var(--border)] bg-[var(--surface)] text-left shadow-[var(--shadow)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:bg-slate-900 dark:shadow-[0_12px_30px_-16px_rgba(2,6,23,0.8)] ${isSelected ? 'border-brand-500 ring-2 ring-brand-500/20' : 'border-slate-200 hover:border-brand-400 dark:border-slate-700'}`}
       aria-pressed={isSelected}
       aria-label={`Select ${category.title} category`}
     >

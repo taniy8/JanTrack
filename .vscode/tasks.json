@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build JanTrack",
+			"type": "shell",
+			"command": "npm run build",
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build JanTrack",
+			"type": "shell",
+			"command": "npm run build",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run JanTrack in browser",
+			"type": "shell",
+			"command": "npm run dev -- --host 127.0.0.1 --port 5173",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

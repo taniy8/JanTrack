@@ -9,8 +9,8 @@ export default function ToastProvider() {
         duration: 4200,
         className: '',
         style: {
-          background: 'transparent',
-          boxShadow: 'none',
+          background: 'var(--surface)',
+          boxShadow: 'var(--shadow)',
           padding: 0,
         },
       }}

@@ -1,17 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const ThemeContext = createContext(null);
+const THEME_STORAGE_KEY = 'theme';
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light';
-    return localStorage.getItem('jtrack-theme') || 'light';
+    return localStorage.getItem(THEME_STORAGE_KEY) || 'light';
   });
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
     document.documentElement.style.colorScheme = theme;
-    localStorage.setItem('jtrack-theme', theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => setTheme((current) => (current === 'light' ? 'dark' : 'light'));

@@ -9,6 +9,7 @@ import { showToast } from '../utils/toast';
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const selectedRole = location.state?.selectedRole;
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: '', password: '' });
@@ -48,7 +49,7 @@ export default function LoginPage() {
       profile: matchedUser.profile,
     });
     showToast.success('Login Successful!', `Welcome back, ${matchedUser.name}.`);
-    const redirectPath = location.state?.from?.pathname || '/dashboard';
+    const redirectPath = location.state?.from?.pathname || (selectedRole === 'administrator' ? '/admin' : selectedRole === 'department officer' ? '/officer-dashboard' : '/dashboard');
     window.setTimeout(() => navigate(redirectPath, { replace: true }), 700);
   };
 
@@ -57,9 +58,9 @@ export default function LoginPage() {
       <div className="mb-8 max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">Authentication</p>
         <h1 className="mt-3 text-5xl font-black leading-tight tracking-[-0.03em] text-slate-900 dark:text-white sm:text-6xl lg:text-7xl">
-          <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 bg-clip-text text-transparent">Access your JanTrack citizen account</span>
+          <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 bg-clip-text text-transparent">Access your JanTrack account</span>
         </h1>
-        <p className="mt-5 text-lg leading-8 text-slate-700 dark:text-slate-300">Sign in to continue to your dashboard and register complaints securely.</p>
+        <p className="mt-5 text-lg leading-8 text-slate-700 dark:text-slate-300">Sign in to continue to your role-based dashboard with secure access and full platform tools.</p>
       </div>
 
       <Card className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">

@@ -8,7 +8,7 @@ export default function Card({ children, className = '', hover = true }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.35 }}
       whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
-      className={`rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_45px_-24px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-800/90 dark:shadow-slate-950/30 ${className}`}
+      className={`rounded-[28px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:border-slate-700 dark:bg-slate-800/90 dark:shadow-slate-950/30 ${className}`}
     >
       {children}
     </motion.div>

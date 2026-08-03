@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import { useAuth } from '../contexts/AuthContext';
@@ -26,6 +26,8 @@ const initialForm = {
 
 export default function CitizenRegisterPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const selectedRole = location.state?.selectedRole;
   const { login } = useAuth();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -101,7 +103,7 @@ export default function CitizenRegisterPage() {
       showToast.success('Registration Successful!', `Welcome to JanTrack.\nYour Citizen ID: ${citizenId}\nRedirecting to Login...`);
 
       window.setTimeout(() => {
-        navigate('/login', { replace: true, state: { message: `Registration successful! Your Citizen ID is ${citizenId}` } });
+        navigate('/login', { replace: true, state: { message: `Registration successful! Your Citizen ID is ${citizenId}`, selectedRole } });
       }, 1200);
     } catch (error) {
       setErrors({ submit: 'Registration failed. Please try again.' });

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 export default function SidebarCard({ item }) {
   return (
-    <motion.div whileHover={{ scale: 1.01, y: -1, boxShadow: '0 16px 34px -20px rgba(37, 99, 235, 0.35)' }} transition={{ duration: 0.2 }}>
+    <motion.div whileHover={{ scale: 1.01, y: -1, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }} transition={{ duration: 0.2 }}>
       <Link
         to={item.route}
         state={item.defaultComplaintCategory ? { defaultComplaintCategory: item.defaultComplaintCategory } : undefined}
-        className="group flex h-full flex-col rounded-[12px] border border-slate-200 bg-white p-2 text-left shadow-[0_8px_20px_-14px_rgba(15,23,42,0.2)] transition-all duration-200 hover:-translate-y-1 hover:border-blue-400 hover:shadow-[0_14px_30px_-16px_rgba(37,99,235,0.35)] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-900"
+        className="group flex h-full flex-col rounded-[12px] border border-[color:var(--border)] bg-[var(--surface)] p-2 text-left shadow-[var(--shadow)] transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--border)] hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-900"
         aria-label={item.title}
       >
         <div className="mb-2 overflow-hidden rounded-[10px] bg-slate-50 p-1 dark:bg-slate-800/70">

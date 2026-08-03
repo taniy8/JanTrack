@@ -6,12 +6,14 @@ import HomePage from './pages/HomePage';
 import TrackingPage from './pages/TrackingPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 import DetailsPage from './pages/DetailsPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import CitizenRegisterPage from './pages/CitizenRegisterPage';
+import RoleSelectionPage from './pages/RoleSelectionPage';
 import SuccessPage from './pages/SuccessPage';
 import ProfilePage from './pages/ProfilePage';
 import NotificationsPage from './pages/NotificationsPage';
@@ -35,9 +37,11 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/tracking" element={<TrackingPage />} />
+          <Route path="/role-selection" element={<RoleSelectionPage />} />
           <Route path="/register" element={<CitizenRegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
           <Route path="/details" element={<ProtectedRoute><DetailsPage /></ProtectedRoute>} />
           <Route path="/departments" element={<DepartmentsPage />} />
           <Route path="/about" element={<AboutPage />} />

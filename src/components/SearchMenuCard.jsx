@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 export default function SearchMenuCard({ item }) {
   return (
-    <motion.div whileHover={{ scale: 1.03, y: -2, boxShadow: '0 16px 38px -18px rgba(37, 99, 235, 0.35)' }} transition={{ duration: 0.2 }}>
+    <motion.div whileHover={{ scale: 1.03, y: -2, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }} transition={{ duration: 0.2 }}>
       <Link
         to={item.route}
         state={item.defaultComplaintCategory ? { defaultComplaintCategory: item.defaultComplaintCategory } : undefined}
-        className="group flex h-full flex-col overflow-hidden rounded-[12px] border border-slate-200 bg-white text-left shadow-[0_10px_24px_-16px_rgba(15,23,42,0.22)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-900"
+        className="group flex h-full flex-col overflow-hidden rounded-[12px] border border-[color:var(--border)] bg-[var(--surface)] text-left shadow-[var(--shadow)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-900"
         aria-label={item.title}
       >
         <div className="overflow-hidden bg-slate-50 p-3 dark:bg-slate-800/70">

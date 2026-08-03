@@ -1,3 +1,5 @@
+import { FiAlertTriangle, FiCpu, FiFileText, FiMapPin, FiMessageSquare, FiSearch, FiZap } from 'react-icons/fi';
+
 export const stats = [
   { value: '120K+', label: 'Complaints Registered', tone: 'from-sky-500 via-blue-500 to-cyan-400' },
   { value: '98K+', label: 'Resolved', tone: 'from-emerald-500 via-cyan-500 to-teal-500' },
@@ -9,14 +11,14 @@ export const features = [
   {
     title: 'AI Complaint Classification',
     description: 'Instantly routes complaints to the right department using intelligent classification.',
-    icon: '🧠',
+    icon: FiCpu,
     route: '/features/ai-classification',
     accent: 'from-indigo-500 to-cyan-500',
   },
   {
     title: 'Live Complaint Tracking',
     description: 'Citizens can follow every movement of a complaint in real time.',
-    icon: '📍',
+    icon: FiMapPin,
     route: '/features/live-tracking',
     accent: 'from-sky-500 to-blue-600',
     requiresAuth: true,
@@ -24,28 +26,28 @@ export const features = [
   {
     title: 'Proof-Based Resolution',
     description: 'Each resolution is backed by photos, videos, and documentation.',
-    icon: '🧾',
+    icon: FiFileText,
     route: '/features/proof-resolution',
     accent: 'from-violet-500 to-fuchsia-500',
   },
   {
     title: 'Duplicate Detection',
     description: 'Prevent repeated submissions and improve response efficiency.',
-    icon: '🔎',
+    icon: FiSearch,
     route: '/features/duplicate-detection',
     accent: 'from-amber-500 to-orange-500',
   },
   {
     title: 'Automatic Escalation',
     description: 'Critical complaints are escalated automatically to senior officers.',
-    icon: '⚡',
+    icon: FiAlertTriangle,
     route: '/features/automatic-escalation',
     accent: 'from-emerald-500 to-cyan-500',
   },
   {
     title: 'Citizen Feedback',
     description: 'End-to-end feedback helps the administration improve public service.',
-    icon: '💬',
+    icon: FiMessageSquare,
     route: '/features/citizen-feedback',
     accent: 'from-pink-500 to-rose-500',
   },
@@ -55,7 +57,7 @@ export const featureDetails = {
   aiClassification: {
     title: 'AI Complaint Classification',
     eyebrow: 'Intelligent routing',
-    icon: '🧠',
+    icon: FiCpu,
     description: 'Instantly understands the nature of a complaint and routes it to the correct department with remarkable speed.',
     overview: 'JanTrack uses contextual analysis to interpret complaint language, urgency, and location so municipal teams can act faster and with less manual triage.',
     citizenBenefit: 'Citizens receive faster acknowledgement and a clearer path to resolution.',
@@ -72,7 +74,7 @@ export const featureDetails = {
   liveTracking: {
     title: 'Live Complaint Tracking',
     eyebrow: 'Real-time visibility',
-    icon: '📍',
+    icon: FiMapPin,
     description: 'Citizens and officials can follow every movement of a complaint from submission to closure in real time.',
     overview: 'Each milestone is recorded, timestamped, and displayed clearly so everyone can see where a case stands without waiting for manual updates.',
     citizenBenefit: 'Citizens stay informed and trust the process because progress is visible at every stage.',
@@ -90,7 +92,7 @@ export const featureDetails = {
   proofResolution: {
     title: 'Proof-Based Resolution',
     eyebrow: 'Documented outcomes',
-    icon: '🧾',
+    icon: FiFileText,
     description: 'Every action is backed by photos, videos, notes, and official updates so resolutions are evidence-based.',
     overview: 'Proof-based resolution helps teams close complaints with a complete record that can be reviewed by citizens and supervisors alike.',
     citizenBenefit: 'Citizens can see the evidence behind the final outcome and trust that the response was genuine.',
@@ -107,7 +109,7 @@ export const featureDetails = {
   duplicateDetection: {
     title: 'Duplicate Detection',
     eyebrow: 'Smarter intake',
-    icon: '🔎',
+    icon: FiSearch,
     description: 'Identifies repeated or related submissions to prevent redundant work and improve response quality.',
     overview: 'The platform compares new complaints against existing cases to detect duplicates early and keep public service efforts focused.',
     citizenBenefit: 'Citizens avoid repeated follow-up and receive a smoother intake experience.',
@@ -124,7 +126,7 @@ export const featureDetails = {
   automaticEscalation: {
     title: 'Automatic Escalation',
     eyebrow: 'Priority handling',
-    icon: '⚡',
+    icon: FiAlertTriangle,
     description: 'Critical complaints are escalated to senior officers automatically when urgency thresholds are met.',
     overview: 'By identifying severity and time sensitivity, the platform ensures high-impact issues receive immediate attention.',
     citizenBenefit: 'Urgent concerns reach the right people faster and are less likely to stall.',
@@ -141,7 +143,7 @@ export const featureDetails = {
   citizenFeedback: {
     title: 'Citizen Feedback',
     eyebrow: 'Community trust',
-    icon: '💬',
+    icon: FiMessageSquare,
     description: 'Collects end-to-end feedback so the administration can continuously improve public services.',
     overview: 'Feedback closes the loop between service delivery and citizen experience, helping government teams learn from each case.',
     citizenBenefit: 'Citizens can share their experience and feel that their voice is part of the improvement process.',

@@ -7,6 +7,7 @@ import electricity from '../assets/images/electricity.jpg';
 import illegalConstruction from '../assets/images/illegal construction.jpg';
 import transport from '../assets/images/transportation.jpg';
 import governmentOffices from '../assets/images/government offices.jpg';
+import { Shield } from 'lucide-react';
 import {
   FiActivity,
   FiAlertTriangle,
@@ -23,7 +24,6 @@ import {
   FiRefreshCw,
   FiShare2,
   FiSearch,
-  FiShield,
   FiStar,
   FiUserCheck,
   FiZap,
@@ -289,7 +289,7 @@ export const homeFeatureCards = [
   {
     title: 'Government Departments',
     description: 'Route each issue to the right public agency with minimal friction.',
-    icon: FiShield,
+    icon: Shield,
     route: '/tracking',
     badge: 'DEPT',
     accent: 'from-fuchsia-500/20 via-purple-400/10 to-transparent',

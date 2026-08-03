@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 export default function Button({ children, variant = 'primary', className = '', disabled = false, isLoading = false, ...props }) {
   const base = 'inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold tracking-[0.02em] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2';
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-600/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/25 focus:ring-cyan-500',
-    secondary: 'border border-slate-200 bg-white/90 text-slate-800 hover:-translate-y-1 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/90 dark:text-slate-100 dark:hover:bg-slate-700',
-    ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800',
+    primary: 'border border-[var(--btn-primary-border)] bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] shadow-[0_4px_12px_rgba(15,118,110,0.15)] hover:-translate-y-0.5 hover:border-[var(--btn-primary-bg-hover)] hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-[0_4px_12px_rgba(15,118,110,0.15)] active:bg-[var(--btn-primary-bg-active)] focus:ring-sky-400',
+    secondary: 'border border-[var(--btn-secondary-border)] bg-[var(--btn-secondary-bg)] text-[var(--btn-secondary-text)] hover:-translate-y-0.5 hover:bg-[var(--btn-secondary-hover-bg)]',
+    ghost: 'bg-[var(--surface-soft)] text-[var(--text)] hover:bg-[var(--surface)]',
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, BellRing, CheckCircle2, ChevronDown, Circle, CircleDashed, Clock3, Compass, FileText, Home, Info, Layers3, MessageSquareText, PanelsTopLeft, ShieldCheck, Sparkles, X, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -83,34 +83,45 @@ export function ComplaintTimeline({ items }) {
 
 export function DepartmentCardsGrid({ departments }) {
   return (
-    <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {departments.map((department, index) => (
-        <motion.div key={department.name} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: index * 0.05 }} whileHover={{ y: -6, scale: 1.01 }} className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-cyan-300 hover:shadow-[0_18px_45px_-20px_rgba(34,211,238,0.5)] dark:border-slate-700 dark:bg-slate-800">
-          <div className="flex items-start justify-between gap-3">
-            <div className="rounded-2xl bg-cyan-100 p-3 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300">
-              <department.icon className="h-5 w-5" />
+        <motion.div
+          key={department.name}
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.35, delay: index * 0.05 }}
+          whileHover={{ y: -6, scale: 1.01 }}
+          className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-cyan-300 hover:shadow-[0_18px_45px_-20px_rgba(34,211,238,0.5)] dark:border-slate-700 dark:bg-slate-800"
+        >
+          <img src={department.image} alt={department.name} className="h-44 w-full object-cover" />
+          <div className="p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div className="rounded-2xl bg-cyan-100 p-3 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300">
+                <department.icon className="h-5 w-5" />
+              </div>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700 dark:bg-slate-700 dark:text-slate-300">{department.status}</span>
             </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-300">{department.status}</span>
+            <h3 className="mt-5 text-xl font-semibold text-slate-900 dark:text-white">{department.name}</h3>
+            <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{department.description}</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Active</p>
+                <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">{department.activeComplaints.toLocaleString()}</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Resolved</p>
+                <p className="mt-1 text-lg font-semibold text-emerald-600 dark:text-emerald-300">{department.resolvedComplaints.toLocaleString()}</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Response</p>
+                <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">{department.responseTime.toFixed(1)} hrs</p>
+              </div>
+            </div>
+            <Link to="#departments-grid" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition group-hover:translate-x-1 dark:text-cyan-400">
+              View Department <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-          <h3 className="mt-5 text-xl font-semibold text-slate-900 dark:text-white">{department.name}</h3>
-          <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{department.service}</p>
-          <div className="mt-6 grid grid-cols-3 gap-3 text-center text-sm">
-            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
-              <p className="font-semibold text-slate-900 dark:text-white">{department.total}</p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Total</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
-              <p className="font-semibold text-amber-600 dark:text-amber-300">{department.pending}</p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Pending</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-700/80">
-              <p className="font-semibold text-emerald-600 dark:text-emerald-300">{department.resolved}</p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Resolved</p>
-            </div>
-          </div>
-          <button className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition group-hover:translate-x-1 dark:text-cyan-400">
-            View Details <ArrowRight className="h-4 w-4" />
-          </button>
         </motion.div>
       ))}
     </div>
@@ -317,28 +328,42 @@ export function Modal({ open, onClose, title, children }) {
 
 export function FloatingQuickActions() {
   const [open, setOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, [open]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end gap-3">
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-[999] flex flex-col items-end gap-3">
       <AnimatePresence>
         {open ? (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="flex flex-col gap-2 rounded-[24px] border border-slate-200 bg-white/90 p-3 shadow-xl backdrop-blur dark:border-slate-700 dark:bg-slate-900/90">
-            <Link to="/complaint/new" className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+            <Link to="/complaint/new" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
               <FileText className="h-4 w-4" /> Register Complaint
             </Link>
-            <Link to="/tracking" className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+            <Link to="/tracking" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
               <Compass className="h-4 w-4" /> Track Complaint
             </Link>
-            <Link to="/contact" className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+            <Link to="/contact" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
               <MessageSquareText className="h-4 w-4" /> Contact Support
             </Link>
-            <Link to="/dashboard" className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+            <Link to="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
               <Home className="h-4 w-4" /> Dashboard
             </Link>
           </motion.div>
         ) : null}
       </AnimatePresence>
-      <button onClick={() => setOpen((prev) => !prev)} className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 text-white shadow-lg shadow-cyan-600/25">
+      <button type="button" onClick={() => setOpen((prev) => !prev)} className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 text-white shadow-lg shadow-cyan-600/25 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2">
         {open ? <X className="h-6 w-6" /> : <PlusIcon />}
       </button>
     </div>
