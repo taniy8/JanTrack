@@ -12,7 +12,7 @@ export default function HomeFeatureCard({ feature }) {
       className={`group relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow)] transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--border)] hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] ${feature.cardClass || ''}`}
     >
       <div className="relative flex items-start justify-between gap-2">
-        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-white/70 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white ${feature.iconBg}`}>
+        <div className="home-icon-shell flex h-12 w-12 items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5">
           <Icon size={18} />
         </div>
         <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] ${feature.badgeClass}`}>{feature.badge}</span>

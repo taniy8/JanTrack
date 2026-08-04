@@ -54,12 +54,12 @@ export default function AnimatedStatsSection({
         <div className="absolute bottom-0 right-0 h-36 w-36 rounded-full bg-sky-500/15 blur-3xl" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-400">{eyebrow}</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">{title}</h2>
-            {description ? <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-secondary)]">{description}</p> : null}
+            <p className="home-section-title text-sm">{eyebrow}</p>
+            <h2 className="home-subheading mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+            {description ? <p className="home-body-copy mt-4 max-w-2xl text-base leading-7">{description}</p> : null}
           </div>
           {badge ? (
-            <div className="inline-flex items-center gap-2 self-start rounded-full border border-[color:var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-sky-400 shadow-[var(--shadow)] lg:self-auto">
+            <div className="home-section-title inline-flex items-center gap-2 self-start rounded-full border border-[color:var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium shadow-[var(--shadow)] lg:self-auto">
               <span className="h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_0_4px_rgba(37,99,235,0.2)]" />
               {badge}
             </div>
@@ -86,7 +86,7 @@ export default function AnimatedStatsSection({
                   <motion.div
                     whileHover={{ scale: 1.05, rotate: 2 }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className={`inline-flex rounded-2xl bg-gradient-to-br ${item.accent} p-3 text-white shadow-[0_20px_45px_rgba(0,0,0,0.35)]`}
+                    className="home-icon-shell inline-flex p-3 transition-all duration-300 group-hover:-translate-y-0.5"
                   >
                     <Icon className="h-5 w-5" />
                   </motion.div>
@@ -98,7 +98,7 @@ export default function AnimatedStatsSection({
                 </div>
 
                 <div className="mt-6">
-                  <p className="text-4xl font-black tracking-tight text-[var(--text)]">
+                  <p className="home-stat-number text-4xl tracking-tight">
                     {statsAnimationActive ? (
                       <CountUp
                         start={0}
@@ -113,8 +113,8 @@ export default function AnimatedStatsSection({
                       '0'
                     )}
                   </p>
-                  <p className="mt-3 text-base font-semibold text-[var(--text)]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.description}</p>
+                  <p className="home-subheading mt-3 text-base font-semibold">{item.title}</p>
+                  <p className="home-body-copy mt-2 text-sm leading-7">{item.description}</p>
                 </div>
 
                 <div className="mt-6 h-2 overflow-hidden rounded-full bg-white/10">

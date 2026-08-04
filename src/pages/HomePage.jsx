@@ -88,135 +88,132 @@ export default function HomePage() {
         <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-slate-100 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex max-w-[1500px] flex-col gap-5 px-4 py-4 sm:px-6 lg:px-6 lg:py-6 xl:py-8">
-        <div className="lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-7 xl:gap-8">
+      <div className="relative mx-0 flex w-full flex-col gap-5 px-4 py-4 sm:px-6 lg:px-6 lg:py-6 xl:py-8">
+        <div className="w-full lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-7 xl:gap-8">
           <aside className="mb-6 w-full lg:mb-0 lg:sticky lg:top-24 lg:self-start lg:min-h-[calc(100vh-7rem)]">
             <div className="h-full rounded-[24px] border border-[color:var(--border)] bg-[var(--sidebar)] p-2.5 shadow-[var(--shadow)] sm:p-3 lg:overflow-visible">
               <HomeCategoryPanel categories={complaintCategories} />
             </div>
           </aside>
 
-          <div className="flex min-w-0 flex-col gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[var(--surface)] p-6 text-[var(--text)] shadow-[var(--shadow)] sm:p-8 lg:p-9"
-            >
-              <div className="absolute inset-0 bg-transparent" />
-              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-sm font-semibold uppercase tracking-[0.32em] text-sky-500">Welcome to JanTrack</p>
-                  <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--text)] sm:text-4xl">A trusted digital civic platform for transparent public service delivery.</h1>
-                  <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-secondary)] sm:text-lg">Submit, monitor, and resolve public complaints through a secure, official service experience designed for citizens and departments.</p>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Button type="button" onClick={() => navigate('/complaint/new')} aria-label="Register a new complaint">Register Complaint</Button>
-                  <Button type="button" variant="secondary" onClick={() => navigate('/tracking')} aria-label="Track an existing complaint">Track Complaint</Button>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.45, delay: 0.1 }} className="overflow-hidden rounded-[32px] border border-[color:var(--border)] bg-[var(--page)] p-3 shadow-[var(--shadow)] sm:p-4">
-              <HomeHeroSlider slides={heroSlides} />
-            </motion.div>
-
+          <div className="flex w-full min-w-0 flex-1 flex-col gap-6">
             <motion.section
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.45, delay: 0.2 }}
-              className="overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[var(--page)] p-6 shadow-[var(--shadow)] sm:p-7 lg:p-8"
+              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
             >
-              <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-                <div className="space-y-6">
-                  <div className="max-w-3xl">
-                    <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-400">Platform Overview</p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">Real-time insights into JanTrack's complaint management and governance performance.</h2>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    {[
-                      { title: 'Total Complaints', value: 25000, suffix: '+', description: 'Citizen submissions tracked', icon: BarChart3, accent: 'from-blue-600 to-cyan-500', route: '/dashboard' },
-                      { title: 'Resolved Today', value: 184, suffix: '', description: 'Cases closed this day', icon: CheckCircle2, accent: 'from-emerald-500 to-green-500', route: '/dashboard' },
-                      { title: 'Pending Review', value: 312, suffix: '', description: 'Awaiting action', icon: Shield, accent: 'from-violet-600 to-indigo-500', route: '/dashboard' },
-                      { title: 'Active Departments', value: 45, suffix: '', description: 'Connected agencies', icon: Building2, accent: 'from-slate-700 to-slate-500', route: '/departments' },
-                    ].map((item, index) => {
-                      const Icon = item.icon;
-                      return (
-                        <motion.button
-                          type="button"
-                          key={item.title}
-                          initial={{ opacity: 0, y: 16 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.2 }}
-                          transition={{ duration: 0.4, delay: index * 0.08 }}
-                          whileHover={{ y: -6, scale: 1.01 }}
-                          onClick={() => navigate(item.route)}
-                          aria-label={`Open ${item.title}`}
-                          className="flex h-full cursor-pointer flex-col rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-4 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
-                        >
-                          <div className={`inline-flex rounded-2xl bg-gradient-to-br ${item.accent} p-2.5 text-white shadow-[0_4px_12px_rgba(37,99,235,0.15)]`}>
-                            <Icon className="h-4 w-4" />
-                          </div>
-                          <p className="mt-4 text-2xl font-black tracking-tight text-[var(--text)]">{item.value.toLocaleString()}{item.suffix}</p>
-                          <p className="mt-2 text-sm font-semibold text-[var(--text)]">{item.title}</p>
-                          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{item.description}</p>
-                        </motion.button>
-                      );
-                    })}
-                  </div>
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="home-section-title text-sm">Latest Updates</p>
+                  <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Measured outcomes that show how <span className="home-highlight">service</span> delivery improves every month.</h2>
                 </div>
-
-                <div className="rounded-[20px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)]">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-400">Platform Status</p>
-                      <h3 className="mt-2 text-2xl font-semibold text-[var(--text)]">Operational</h3>
+                <button type="button" onClick={() => navigate('/updates')} className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-400/30 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[#111827]">View Updates</button>
+              </div>
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
+                {[
+                  { title: 'Streetlight repairs', metric: '92% faster', description: 'Resolved with clearer routing and priority handling.' },
+                  { title: 'Drainage response', metric: '3x visibility', description: 'Residents now receive live updates from dispatch to closeout.' },
+                  { title: 'Waste pickup', metric: '18k cases', description: 'Tracked through one reliable citizen-facing dashboard.' },
+                ].map((item) => (
+                  <motion.button
+                    key={item.title}
+                    type="button"
+                    whileHover={{ y: -4, scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => navigate('/updates')}
+                    aria-label={`Read about ${item.title}`}
+                    className="cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-sky-600">{item.metric}</div>
+                      <BarChart3 className="h-5 w-5 text-[#0F766E] dark:text-[#38BDF8]" />
                     </div>
-                    <div className="rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-400">24/7 Live</div>
-                  </div>
+                    <h3 className="home-subheading mt-4 text-lg font-semibold">{item.title}</h3>
+                    <p className="home-body-copy mt-2 text-sm leading-7">{item.description}</p>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.section>
 
-                  <div className="mt-6 rounded-[24px] border border-[color:var(--border)] bg-[var(--surface-strong)] p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--text-secondary)]">Today's Activity</p>
-                    <div className="mt-4 space-y-3 text-sm text-[var(--text-secondary)]">
-                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
-                        <span>New complaints</span>
-                        <span className="font-semibold text-[var(--text)]">128</span>
+            <motion.section
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45, delay: 0.25 }}
+              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
+            >
+              <div className="max-w-3xl">
+                <p className="home-section-title text-sm">Quick Actions</p>
+                <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">A simple pathway from citizen report to <span className="home-highlight">transparent</span> resolution.</h2>
+              </div>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {processSteps.slice(0, 4).map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <motion.button
+                      key={step.title}
+                      type="button"
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      onClick={() => navigate(step.route)}
+                      aria-label={`Open ${step.title}`}
+                      className="relative cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="home-icon-shell flex h-11 w-11 items-center justify-center">
+                          <Icon size={18} />
+                        </div>
+                        <span className="text-sm font-semibold text-[var(--text-secondary)]">0{index + 1}</span>
                       </div>
-                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
-                        <span>Resolved today</span>
-                        <span className="font-semibold text-[var(--text)]">84</span>
-                      </div>
-                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
-                        <span>Active officers</span>
-                        <span className="font-semibold text-[var(--text)]">26</span>
-                      </div>
-                    </div>
-                  </div>
+                      <h3 className="home-subheading mt-4 text-lg font-semibold">{step.title}</h3>
+                      <p className="home-body-copy mt-2 text-sm leading-7">{step.description}</p>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.section>
 
-                  <div className="mt-6">
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--text-secondary)]">Quick Highlights</p>
-                    <div className="mt-3 space-y-2 text-sm text-[var(--text-secondary)]">
-                      {[
-                        { label: '24×7 citizen support', route: '/contact' },
-                        { label: 'Secure complaint tracking', route: '/tracking' },
-                        { label: 'Multi-department coordination', route: '/departments' },
-                        { label: 'Transparent resolution process', route: '/dashboard' },
-                      ].map((item) => (
-                        <button
-                          key={item.label}
-                          type="button"
-                          onClick={() => navigate(item.route)}
-                          aria-label={`Open ${item.label}`}
-                          className="w-full rounded-2xl border border-[color:var(--border)] bg-[var(--surface-soft)] px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-[color:var(--border)] hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
-                        >
-                          {item.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+            <motion.section
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45, delay: 0.3 }}
+              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
+            >
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="home-section-title text-sm">Government Information</p>
+                  <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Modern capabilities designed to support <span className="home-highlight">secure</span>, <span className="home-highlight">transparent</span> civic service delivery.</h2>
                 </div>
+              </div>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {[
+                  { title: 'Secure complaint tracking', description: 'Every stage remains visible to citizens and departments.', icon: Shield, route: '/tracking' },
+                  { title: 'AI-powered categorization', description: 'Issues are routed quickly with intelligent classification.', icon: FiCpu, route: '/features/ai-classification' },
+                  { title: 'Transparent status updates', description: 'Real-time progress keeps everyone informed and aligned.', icon: FiMonitor, route: '/updates' },
+                  { title: 'Multi-department coordination', description: 'Cross-functional work stays organized and accountable.', icon: FiUsers, route: '/departments' },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.button
+                      key={item.title}
+                      type="button"
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      onClick={() => navigate(item.route)}
+                      aria-label={`Open ${item.title}`}
+                      className="cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface-soft)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
+                    >
+                      <div className="home-icon-shell flex h-12 w-12 items-center justify-center">
+                        <Icon size={18} />
+                      </div>
+                      <h3 className="home-subheading mt-4 text-lg font-semibold">{item.title}</h3>
+                      <p className="home-body-copy mt-2 text-sm leading-7">{item.description}</p>
+                    </motion.button>
+                  );
+                })}
               </div>
             </motion.section>
 
@@ -240,120 +237,123 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.45, delay: 0.2 }}
-              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
+              className="overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[var(--page)] p-6 shadow-[var(--shadow)] sm:p-7 lg:p-8"
             >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-400">Latest Updates</p>
-                  <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Measured outcomes that show how service delivery improves every month.</h2>
+              <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+                <div className="space-y-6">
+                  <div className="max-w-3xl">
+                    <p className="home-section-title text-sm">Platform Overview</p>
+                    <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Real-time insights into JanTrack's <span className="home-highlight">complaint</span> management and <span className="home-highlight">government</span> performance.</h2>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    {[
+                      { title: 'Total Complaints', value: 25000, suffix: '+', description: 'Citizen submissions tracked', icon: BarChart3, accent: 'from-blue-600 to-cyan-500', route: '/dashboard' },
+                      { title: 'Resolved Today', value: 184, suffix: '', description: 'Cases closed this day', icon: CheckCircle2, accent: 'from-emerald-500 to-green-500', route: '/dashboard' },
+                      { title: 'Pending Review', value: 312, suffix: '', description: 'Awaiting action', icon: Shield, accent: 'from-violet-600 to-indigo-500', route: '/dashboard' },
+                      { title: 'Active Departments', value: 45, suffix: '', description: 'Connected agencies', icon: Building2, accent: 'from-slate-700 to-slate-500', route: '/departments' },
+                    ].map((item, index) => {
+                      const Icon = item.icon;
+                      return (
+                        <motion.button
+                          type="button"
+                          key={item.title}
+                          initial={{ opacity: 0, y: 16 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.2 }}
+                          transition={{ duration: 0.4, delay: index * 0.08 }}
+                          whileHover={{ y: -6, scale: 1.01 }}
+                          onClick={() => navigate(item.route)}
+                          aria-label={`Open ${item.title}`}
+                          className="flex h-full cursor-pointer flex-col rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-4 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
+                        >
+                          <div className="home-icon-shell inline-flex p-2.5">
+                            <Icon className="h-4 w-4" />
+                          </div>
+                          <p className="home-stat-number mt-4 text-2xl tracking-tight">{item.value.toLocaleString()}{item.suffix}</p>
+                          <p className="home-subheading mt-2 text-sm font-semibold">{item.title}</p>
+                          <p className="home-body-copy mt-1 text-sm leading-6">{item.description}</p>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <button type="button" onClick={() => navigate('/updates')} className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-400/30 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[#111827]">View Updates</button>
-              </div>
-              <div className="mt-8 grid gap-4 md:grid-cols-3">
-                {[
-                  { title: 'Streetlight repairs', metric: '92% faster', description: 'Resolved with clearer routing and priority handling.' },
-                  { title: 'Drainage response', metric: '3x visibility', description: 'Residents now receive live updates from dispatch to closeout.' },
-                  { title: 'Waste pickup', metric: '18k cases', description: 'Tracked through one reliable citizen-facing dashboard.' },
-                ].map((item) => (
-                  <motion.button
-                    key={item.title}
-                    type="button"
-                    whileHover={{ y: -4, scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={() => navigate('/updates')}
-                    aria-label={`Read about ${item.title}`}
-                    className="cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-sky-600">{item.metric}</div>
-                      <BarChart3 className="h-5 w-5 text-sky-500" />
+
+                <div className="rounded-[20px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)]">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="home-section-title text-sm">Platform Status</p>
+                      <h3 className="home-subheading mt-2 text-2xl font-semibold">Operational</h3>
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-[var(--text)]">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.description}</p>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.section>
+                    <div className="rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-400">24/7 Live</div>
+                  </div>
 
-            <motion.section
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45, delay: 0.25 }}
-              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
-            >
-              <div className="max-w-3xl">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-400">Quick Actions</p>
-                <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">A simple pathway from citizen report to transparent resolution.</h2>
-              </div>
-              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {processSteps.slice(0, 4).map((step, index) => {
-                  const Icon = step.icon;
-                  return (
-                    <motion.button
-                      key={step.title}
-                      type="button"
-                      whileHover={{ y: -4, scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={() => navigate(step.route)}
-                      aria-label={`Open ${step.title}`}
-                      className="relative cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface-soft)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--surface-soft)] text-[var(--text)] shadow-[var(--shadow)]">
-                          <Icon size={18} />
-                        </div>
-                        <span className="text-sm font-semibold text-[var(--text-secondary)]">0{index + 1}</span>
+                  <div className="mt-6 rounded-[24px] border border-[color:var(--border)] bg-[var(--surface-strong)] p-4">
+                    <p className="home-section-title text-sm">Today's Activity</p>
+                    <div className="home-body-copy mt-4 space-y-3 text-sm">
+                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
+                        <span>New complaints</span>
+                        <span className="font-semibold text-[var(--text)]">128</span>
                       </div>
-                      <h3 className="mt-4 text-lg font-semibold text-[var(--text)]">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{step.description}</p>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </motion.section>
+                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
+                        <span>Resolved today</span>
+                        <span className="font-semibold text-[var(--text)]">84</span>
+                      </div>
+                      <div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
+                        <span>Active officers</span>
+                        <span className="font-semibold text-[var(--text)]">26</span>
+                      </div>
+                    </div>
+                  </div>
 
-            <motion.section
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45, delay: 0.3 }}
-              className="rounded-[32px] border border-[color:var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-7"
-            >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-400">Government Information</p>
-                  <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Modern capabilities designed to support secure, transparent civic service delivery.</h2>
+                  <div className="mt-6">
+                    <p className="home-section-title text-sm">Quick Highlights</p>
+                    <div className="home-body-copy mt-3 space-y-2 text-sm">
+                      {[
+                        { label: '24×7 citizen support', route: '/contact' },
+                        { label: 'Secure complaint tracking', route: '/tracking' },
+                        { label: 'Multi-department coordination', route: '/departments' },
+                        { label: 'Transparent resolution process', route: '/dashboard' },
+                      ].map((item) => (
+                        <button
+                          key={item.label}
+                          type="button"
+                          onClick={() => navigate(item.route)}
+                          aria-label={`Open ${item.label}`}
+                          className="w-full rounded-2xl border border-[color:var(--border)] bg-[var(--surface-soft)] px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-[color:var(--border)] hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {[
-                  { title: 'Secure complaint tracking', description: 'Every stage remains visible to citizens and departments.', icon: Shield, route: '/tracking' },
-                  { title: 'AI-powered categorization', description: 'Issues are routed quickly with intelligent classification.', icon: FiCpu, route: '/features/ai-classification' },
-                  { title: 'Transparent status updates', description: 'Real-time progress keeps everyone informed and aligned.', icon: FiMonitor, route: '/updates' },
-                  { title: 'Multi-department coordination', description: 'Cross-functional work stays organized and accountable.', icon: FiUsers, route: '/departments' },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <motion.button
-                      key={item.title}
-                      type="button"
-                      whileHover={{ y: -4, scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={() => navigate(item.route)}
-                      aria-label={`Open ${item.title}`}
-                      className="cursor-pointer rounded-[16px] border border-[color:var(--border)] bg-[var(--surface-soft)] p-5 text-left shadow-[var(--shadow)] transition hover:-translate-y-1 hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
-                    >
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-soft)] text-[var(--text)] shadow-[var(--shadow)]">
-                        <Icon size={18} />
-                      </div>
-                      <h3 className="mt-4 text-lg font-semibold text-[var(--text)]">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.description}</p>
-                    </motion.button>
-                  );
-                })}
-              </div>
             </motion.section>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[var(--surface)] p-6 text-[var(--text)] shadow-[var(--shadow)] sm:p-8 lg:p-9"
+            >
+              <div className="absolute inset-0 bg-transparent" />
+              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="home-section-title text-sm">Welcome to JanTrack</p>
+                  <h1 className="home-hero-title mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">A trusted digital civic platform for <span className="home-highlight">transparent</span> public service delivery.</h1>
+                  <p className="home-body-copy mt-4 max-w-2xl text-base leading-7 sm:text-lg">Submit, monitor, and resolve public complaints through a secure, official service experience designed for <span className="home-highlight">citizens</span> and <span className="home-highlight">departments</span>.</p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button type="button" onClick={() => navigate('/complaint/new')} aria-label="Register a new complaint">Register Complaint</Button>
+                  <Button type="button" variant="secondary" onClick={() => navigate('/tracking')} aria-label="Track an existing complaint">Track Complaint</Button>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.45, delay: 0.1 }} className="w-full overflow-hidden rounded-[32px] border border-[color:var(--border)] bg-[var(--page)] p-3 shadow-[var(--shadow)] sm:p-4">
+              <HomeHeroSlider slides={heroSlides} />
+            </motion.div>
 
             <motion.section
               initial={{ opacity: 0, y: 24 }}
@@ -364,9 +364,9 @@ export default function HomePage() {
             >
               <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-500">Building transparent governance together</p>
-                  <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Empowering citizens and government departments through secure, efficient, and transparent complaint management.</h2>
-                  <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-secondary)]">A modern public service experience built for trust, accountability, and faster resolutions at every stage.</p>
+                  <p className="home-section-title text-sm">Building transparent governance together</p>
+                  <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Empowering <span className="home-highlight">citizens</span> and <span className="home-highlight">government</span> <span className="home-highlight">departments</span> through secure, efficient, and transparent <span className="home-highlight">complaint</span> management.</h2>
+                  <p className="home-body-copy mt-4 max-w-2xl text-base leading-7">A modern public service experience built for trust, accountability, and faster resolutions at every stage.</p>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <button type="button" onClick={() => navigate('/complaint/new')} className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_4px_12px_rgba(37,99,235,0.15)] transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--surface)]">
                       Register Complaint <FiArrowRight size={15} className="ml-2" />
