@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# CivicFlow
-=======
+
 # JanTrack
 
 Transparent Government Complaint Tracking System
