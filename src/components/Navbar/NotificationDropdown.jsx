@@ -2,22 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiBell, FiCheckCircle, FiAlertCircle, FiClock, FiX, FiInbox } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-
-const initialNotifications = [
-  { id: 1, title: 'Complaint Assigned', description: 'Your complaint JT202600145 has been assigned to the Public Works team.', time: '2 hours ago', unread: true, type: 'info' },
-  { id: 2, title: 'Status Updated', description: 'The officer has marked your complaint under review.', time: '5 hours ago', unread: true, type: 'warning' },
-  { id: 3, title: 'Complaint Resolved', description: 'Your complaint has been resolved and is awaiting feedback.', time: '1 day ago', unread: false, type: 'success' },
-  { id: 4, title: 'Feedback Requested', description: 'Please share your feedback on the latest resolution.', time: '2 days ago', unread: false, type: 'info' },
-];
+import { getNotifications } from '../../services/jantrackApi';
 
 export default function NotificationDropdown({ open, onClose }) {
   const navigate = useNavigate();
   const ref = useRef(null);
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
+    setLoading(true);
+    getNotifications().then(({ data }) => setNotifications(data.notifications || [])).finally(() => setLoading(false));
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) onClose();
     };
@@ -87,9 +83,9 @@ export default function NotificationDropdown({ open, onClose }) {
                         <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
                         {item.unread && <span className="h-2.5 w-2.5 rounded-full bg-brand-600" />}
                       </div>
-                      <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-200">{item.description}</p>
+                      <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-200">{item.message}</p>
                       <div className="mt-2 flex items-center justify-between">
-                        <p className="text-xs text-slate-500 dark:text-slate-300">{item.time}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-300">{item.createdAt}</p>
                         {item.unread && (
                           <button onClick={() => markAsRead(item.id)} className="text-xs font-semibold text-brand-600">Mark read</button>
                         )}

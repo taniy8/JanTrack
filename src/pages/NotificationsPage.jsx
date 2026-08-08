@@ -1,11 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../components/Card';
-
-const notifications = [
-  { id: 1, title: 'Complaint Submitted', description: 'Your complaint JT202600145 has been successfully registered.', time: '2 hours ago', unread: true, complaint: 'JT202600145', type: 'success' },
-  { id: 2, title: 'Officer Assigned', description: 'An officer has been assigned to your complaint.', time: '5 hours ago', unread: true, complaint: 'JT202600145', type: 'info' },
-  { id: 3, title: 'Complaint Resolved', description: 'The issue was resolved and is awaiting your feedback.', time: '1 day ago', unread: false, complaint: 'JT202600148', type: 'warning' },
-];
+import { getNotifications } from '../services/jantrackApi';
 
 const badgeStyles = {
   success: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
@@ -16,8 +11,15 @@ const badgeStyles = {
 };
 
 export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState([]);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    getNotifications()
+      .then(({ data }) => setNotifications(data.notifications || []))
+      .catch(() => setNotifications([]));
+  }, []);
 
   const filtered = notifications.filter((item) => {
     const matchesQuery = item.title.toLowerCase().includes(query.toLowerCase()) || item.description.toLowerCase().includes(query.toLowerCase());

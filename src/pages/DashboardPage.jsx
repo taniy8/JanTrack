@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
+import { useEffect } from 'react';
+import { createComplaintRemote, getComplaints, updateComplaintRemote } from '../services/jantrackApi';
 import {
   Area,
   AreaChart,
@@ -42,6 +44,8 @@ import AnimatedStatsSection from '../components/AnimatedStatsSection';
 import Card from '../components/Card';
 import { ActivityFeed, DashboardWidgets, ProgressCard, StatusBadge } from '../components/ModernComponents';
 import { complaintRows } from '../utils/data';
+import { useAuth } from '../contexts/AuthContext';
+import { showToast } from '../utils/toast';
 
 const monthlySeries = {
   '2024': [
@@ -321,9 +325,67 @@ function renderCenterLabel({ viewBox }) {
 }
 
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [year, setYear] = useState('2025');
   const [month, setMonth] = useState('All');
   const [department, setDepartment] = useState('All');
+  const [complaints, setComplaints] = useState([]);
+  const [form, setForm] = useState({ title: '', category: '', description: '', priority: 'Medium' });
+  const [feedbackMap, setFeedbackMap] = useState({});
+
+  useEffect(() => {
+    getComplaints().then(({ data }) => {
+      const filtered = (data.complaints || []).filter((item) => item.citizenId === user?.citizenId || item.citizenName === user?.name);
+      setComplaints(filtered);
+    });
+  }, [user]);
+
+  const handleCreateComplaint = async () => {
+    if (!form.title || !form.description) {
+      showToast.warning('Incomplete form', 'Please add a complaint title and description.');
+      return;
+    }
+
+    try {
+      const { data } = await createComplaintRemote({
+        citizenId: user?.citizenId || 'CTZ1001',
+        citizenName: user?.name || 'Citizen User',
+        title: form.title,
+        category: form.category || 'Other',
+        description: form.description,
+        priority: form.priority,
+        status: 'Pending',
+        department: 'Pending Assignment',
+        assignedOfficer: 'Unassigned',
+        userId: user?.id,
+      });
+
+      setComplaints((current) => [data.complaint, ...current]);
+      setForm({ title: '', category: '', description: '', priority: 'Medium' });
+      showToast.success('Complaint created', `Your case ${data.complaint.id} has been added to your dashboard.`);
+    } catch (error) {
+      showToast.error('Submission failed', 'We could not save the complaint.');
+    }
+  };
+
+  const handleFeedback = async (complaintId) => {
+    const feedback = feedbackMap[complaintId] || '';
+    if (!feedback.trim()) {
+      showToast.warning('Feedback required', 'Please add feedback before submitting.');
+      return;
+    }
+
+    try {
+      await updateComplaintRemote(complaintId, { feedback, status: 'Resolved', message: 'Citizen submitted feedback.' });
+      const { data } = await getComplaints();
+      const filtered = (data.complaints || []).filter((item) => item.citizenId === user?.citizenId || item.citizenName === user?.name);
+      setComplaints(filtered);
+      setFeedbackMap((current) => ({ ...current, [complaintId]: '' }));
+      showToast.success('Feedback submitted', 'Thank you for sharing your experience.');
+    } catch (error) {
+      showToast.error('Feedback failed', 'We could not save your feedback.');
+    }
+  };
 
   const trendData = monthlySeries[year] || monthlySeries['2025'];
   const filteredTrendData = useMemo(() => {

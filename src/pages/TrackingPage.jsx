@@ -1,17 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Card from '../components/Card';
 import { ComplaintTimeline, EmptyState, SearchFilterBar } from '../components/ModernComponents';
-import { timelineEvents } from '../utils/data';
+import { getComplaint } from '../services/jantrackApi';
 
 export default function TrackingPage() {
+  const [searchParams] = useSearchParams();
+  const complaintId = searchParams.get('id') || 'JT-1001';
+  const [complaint, setComplaint] = useState(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('all');
 
+  useEffect(() => {
+    getComplaint(complaintId).then(({ data }) => setComplaint(data.complaint)).catch(() => setComplaint(null));
+  }, [complaintId]);
+
+  const timelineEvents = complaint?.updates || [];
   const filteredTimeline = timelineEvents.filter((event) => {
-    const text = `${event.title} ${event.remark} ${event.officer}`.toLowerCase();
+    const text = `${event.message || event.title}`.toLowerCase();
     const matchesQuery = text.includes(query.toLowerCase());
-    const matchesFilter = filter === 'all' || (filter === 'resolved' ? event.title.toLowerCase().includes('resolved') : true);
+    const matchesFilter = filter === 'all' || (filter === 'resolved' ? event.message?.toLowerCase().includes('resolved') || event.title?.toLowerCase().includes('resolved') : true);
     return matchesQuery && matchesFilter;
   });
 

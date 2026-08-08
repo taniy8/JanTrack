@@ -246,7 +246,7 @@ export default function HomePage() {
                     <h2 className="home-subheading mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Real-time insights into JanTrack's <span className="home-highlight">complaint</span> management and <span className="home-highlight">government</span> performance.</h2>
                   </div>
 
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                     {[
                       { title: 'Total Complaints', value: 25000, suffix: '+', description: 'Citizen submissions tracked', icon: BarChart3, accent: 'from-blue-600 to-cyan-500', route: '/dashboard' },
                       { title: 'Resolved Today', value: 184, suffix: '', description: 'Cases closed this day', icon: CheckCircle2, accent: 'from-emerald-500 to-green-500', route: '/dashboard' },

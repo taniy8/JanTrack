@@ -1,33 +1,35 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { getCurrentUser } from '../services/jantrackApi';
 import { showToast } from '../utils/toast';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem('jtrack-user');
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
-  });
-  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(user));
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setIsAuthenticated(Boolean(user));
-    if (user) {
-      localStorage.setItem('jtrack-user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('jtrack-user');
-    }
   }, [user]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('jtrack-token');
+    if (!token) return;
+
+    getCurrentUser()
+      .then(({ data }) => setUser(data.user))
+      .catch(() => {
+        localStorage.removeItem('jtrack-token');
+        setUser(null);
+      });
+  }, []);
 
   const login = (userData) => {
     setUser(userData);
   };
 
   const logout = () => {
+    localStorage.removeItem('jtrack-token');
     setUser(null);
     showToast.success('Logged Out Successfully', 'See you again soon!', { duration: 3200 });
   };

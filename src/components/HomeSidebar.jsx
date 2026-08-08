@@ -1,10 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import SidebarCard from './SidebarCard';
-import { fetchCategories } from '../services/api';
+import { getCategories } from '../services/jantrackApi';
 
 export default function HomeSidebar() {
-  const { data } = useQuery({ queryKey: ['categories'], queryFn: fetchCategories });
-  const categories = data?.data || [];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories().then(({ data }) => setCategories(data.categories || [])).catch(() => setCategories([]));
+  }, []);
 
   return (
     <aside className="w-full">

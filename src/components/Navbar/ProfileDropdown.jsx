@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiUser, FiGrid, FiAlertCircle, FiSettings, FiKey, FiHelpCircle, FiLogOut } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { getRoleDashboardPath } from '../../utils/dashboardData';
 import { showToast } from '../../utils/toast';
 
 export default function ProfileDropdown({ open, onClose }) {
@@ -32,6 +33,8 @@ export default function ProfileDropdown({ open, onClose }) {
     navigate('/login');
   };
 
+  const dashboardPath = user ? getRoleDashboardPath(user.role) : '/login';
+
   const guestOptions = [
     { label: 'Login', action: () => { navigate('/login'); onClose(); } },
     { label: 'Register', action: () => { navigate('/register'); onClose(); } },
@@ -39,9 +42,9 @@ export default function ProfileDropdown({ open, onClose }) {
 
   const profileOptions = [
     { label: 'My Profile', icon: <FiUser />, action: () => { navigate('/profile'); onClose(); } },
-    { label: 'Dashboard', icon: <FiGrid />, action: () => { navigate('/dashboard'); onClose(); } },
+    { label: 'Dashboard', icon: <FiGrid />, action: () => { navigate(dashboardPath); onClose(); } },
     { label: 'My Complaints', icon: <FiAlertCircle />, action: () => { navigate('/tracking'); onClose(); } },
-    { label: 'Account Settings', icon: <FiSettings />, action: () => { navigate('/dashboard'); onClose(); } },
+    { label: 'Account Settings', icon: <FiSettings />, action: () => { navigate('/profile'); onClose(); } },
     { label: 'Change Password', icon: <FiKey />, action: () => { navigate('/login'); onClose(); } },
     { label: 'Help & Support', icon: <FiHelpCircle />, action: () => { navigate('/contact'); onClose(); } },
   ];

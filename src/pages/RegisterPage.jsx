@@ -4,6 +4,7 @@ import { FiUploadCloud, FiCheckCircle, FiX, FiAlertCircle } from 'react-icons/fi
 import Button from '../components/Button';
 import Card from '../components/Card';
 import { useAuth } from '../contexts/AuthContext';
+import { createComplaintRemote } from '../services/jantrackApi';
 import { showToast } from '../utils/toast';
 
 const steps = ['Complaint Details', 'Evidence Upload', 'Review & Submit'];
@@ -72,7 +73,7 @@ export default function RegisterPage() {
     setUploadState('File removed.');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!user) {
       showToast.warning('Login required', 'Please login or create an account before registering a complaint.');
       navigate('/login', { state: { message: 'Please login or create an account before registering a complaint.' } });
@@ -84,19 +85,27 @@ export default function RegisterPage() {
     }
 
     const complaint = {
-      complaintId: `JT${Date.now().toString().slice(-6)}`,
-      citizenId: user.citizenId || 'USR001',
-      category: form.category,
+      title: `${form.category} complaint in ${form.area}`,
       description: form.description.trim(),
+      category: form.category,
       location: `${form.city}, ${form.area}`,
       priority: form.priority,
       attachments: files.map((item) => item.name),
-      status: 'Submitted',
+      status: 'Pending',
+      department: 'Pending Assignment',
+      assignedOfficer: 'Unassigned',
+      citizenId: user?.citizenId || 'CTZ0000',
+      citizenName: user?.name || 'Citizen',
+      userId: user?.id,
     };
 
-    localStorage.setItem('jtrack-last-complaint', JSON.stringify(complaint));
-    showToast.success('Complaint Submitted Successfully!', `Complaint ID:\n${complaint.complaintId}\nYou can now track your complaint in real time.`);
-    window.setTimeout(() => navigate('/success'), 700);
+    try {
+      const { data } = await createComplaintRemote(complaint);
+      showToast.success('Complaint Submitted Successfully!', `Complaint ID: ${data.complaint.id}. You can now track your complaint in real time.`);
+      window.setTimeout(() => navigate('/success', { state: { complaintId: data.complaint.id } }), 700);
+    } catch (error) {
+      showToast.error('Submission Failed', error.response?.data?.error || 'Unable to submit complaint right now.');
+    }
   };
 
   const descriptionLength = useMemo(() => form.description.length, [form.description]);

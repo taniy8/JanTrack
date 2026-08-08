@@ -4,7 +4,9 @@ import Button from '../components/Button';
 import Card from '../components/Card';
 import { useAuth } from '../contexts/AuthContext';
 import { createCitizenId, validateCitizenRegistration } from '../utils/validation';
+import { getRoleDashboardPath } from '../utils/dashboardData';
 import { showToast } from '../utils/toast';
+import { authRegister } from '../services/jantrackApi';
 
 const initialForm = {
   fullName: '',
@@ -21,6 +23,7 @@ const initialForm = {
   pincode: '',
   identityType: '',
   identityNumber: '',
+  role: 'Citizen',
   terms: false,
 };
 
@@ -45,13 +48,8 @@ export default function CitizenRegisterPage() {
     e.preventDefault();
 
     const nextErrors = validateCitizenRegistration(form);
-    const existingUsers = JSON.parse(localStorage.getItem('jtrack-users') || '[]');
-
-    const duplicate = existingUsers.find((user) => user.email.toLowerCase() === form.email.trim().toLowerCase() || user.mobile === form.mobile.trim());
-    if (duplicate) {
-      nextErrors.duplicate = duplicate.email.toLowerCase() === form.email.trim().toLowerCase()
-        ? 'An account with this email already exists.'
-        : 'An account with this mobile number already exists.';
+    if (!form.role) {
+      nextErrors.role = 'Please select a role.';
     }
 
     setErrors(nextErrors);
@@ -65,18 +63,12 @@ export default function CitizenRegisterPage() {
     setMessage('');
 
     try {
-      await new Promise((resolve) => window.setTimeout(resolve, 900));
-
-      const citizenId = createCitizenId(existingUsers.length);
-      const userRecord = {
-        id: Date.now(),
+      const { data } = await authRegister({
         name: form.fullName.trim(),
         email: form.email.trim().toLowerCase(),
-        mobile: form.mobile.trim(),
         password: form.password,
-        role: 'Citizen',
-        citizenId,
-        createdAt: new Date().toISOString(),
+        role: form.role,
+        citizenId: createCitizenId(Date.now()),
         profile: {
           gender: form.gender,
           dob: form.dob,
@@ -88,26 +80,18 @@ export default function CitizenRegisterPage() {
           identityType: form.identityType,
           identityNumber: form.identityNumber.trim(),
         },
-      };
-
-      const updatedUsers = [...existingUsers, userRecord];
-      localStorage.setItem('jtrack-users', JSON.stringify(updatedUsers));
-      login({
-        name: userRecord.name,
-        email: userRecord.email,
-        role: userRecord.role,
-        citizenId: userRecord.citizenId,
-        profile: userRecord.profile,
       });
-      setMessage(`Registration successful! Your Citizen ID is ${citizenId}`);
-      showToast.success('Registration Successful!', `Welcome to JanTrack.\nYour Citizen ID: ${citizenId}\nRedirecting to Login...`);
+      localStorage.setItem('jtrack-token', data.token);
+      login({ ...data.user, name: data.user.name });
+      setMessage(`Registration successful! Your Citizen ID is ${data.user.citizenId}`);
+      showToast.success('Registration Successful!', `Welcome to JanTrack.\nYour Citizen ID: ${data.user.citizenId}\nRedirecting to Dashboard...`);
 
       window.setTimeout(() => {
-        navigate('/login', { replace: true, state: { message: `Registration successful! Your Citizen ID is ${citizenId}`, selectedRole } });
+        navigate(getRoleDashboardPath(data.user.role), { replace: true });
       }, 1200);
     } catch (error) {
-      setErrors({ submit: 'Registration failed. Please try again.' });
-      showToast.error('Registration Failed', 'We could not create your account right now. Please try again.');
+      setErrors({ submit: error.response?.data?.error || 'Registration failed. Please try again.' });
+      showToast.error('Registration Failed', error.response?.data?.error || 'We could not create your account right now. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -146,6 +130,16 @@ export default function CitizenRegisterPage() {
             <label className="block text-sm font-semibold text-slate-800">Password</label>
             <input name="password" type="password" value={form.password} onChange={handleChange} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 focus:border-brand-500 focus:outline-none" />
             {errors.password && <p className="mt-2 text-sm text-amber-700">{errors.password}</p>}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-slate-800">Role</label>
+            <select name="role" value={form.role} onChange={handleChange} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 focus:border-brand-500 focus:outline-none">
+              <option value="">Select role</option>
+              <option value="Citizen">Citizen</option>
+              <option value="Officer">Officer</option>
+              <option value="Admin">Admin</option>
+            </select>
+            {errors.role && <p className="mt-2 text-sm text-amber-700">{errors.role}</p>}
           </div>
           <div>
             <label className="block text-sm font-semibold text-slate-800">Confirm Password</label>

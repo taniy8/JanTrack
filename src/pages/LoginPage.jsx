@@ -4,6 +4,8 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import { useAuth } from '../contexts/AuthContext';
+import { authLogin } from '../services/jantrackApi';
+import { getRoleDashboardPath } from '../utils/dashboardData';
 import { showToast } from '../utils/toast';
 
 export default function LoginPage() {
@@ -17,7 +19,7 @@ export default function LoginPage() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
       setError('Please enter both email and password.');
@@ -32,25 +34,19 @@ export default function LoginPage() {
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('jtrack-users') || '[]');
-    const matchedUser = existingUsers.find((user) => user.email === form.email.trim().toLowerCase() && user.password === form.password);
-
-    if (!matchedUser) {
+    try {
+      const { data } = await authLogin({ email: form.email.trim().toLowerCase(), password: form.password });
+      localStorage.setItem('jtrack-token', data.token);
+      login({ ...data.user, name: data.user.name });
+      showToast.success('Login Successful!', `Welcome back, ${data.user.name}.`);
+      const requestedPath = location.state?.from?.pathname;
+      const isLegacyDashboardPath = ['/dashboard', '/officer-dashboard', '/department-dashboard'].includes(requestedPath);
+      const redirectPath = !requestedPath || isLegacyDashboardPath ? getRoleDashboardPath(data.user.role) : requestedPath;
+      window.setTimeout(() => navigate(redirectPath, { replace: true }), 700);
+    } catch (error) {
       setError('No account found for this email and password. Please register first.');
       showToast.error('Invalid credentials', 'Email or password is incorrect.');
-      return;
     }
-
-    login({
-      name: matchedUser.name,
-      email: matchedUser.email,
-      role: matchedUser.role,
-      citizenId: matchedUser.citizenId,
-      profile: matchedUser.profile,
-    });
-    showToast.success('Login Successful!', `Welcome back, ${matchedUser.name}.`);
-    const redirectPath = location.state?.from?.pathname || (selectedRole === 'administrator' ? '/admin' : selectedRole === 'department officer' ? '/officer-dashboard' : '/dashboard');
-    window.setTimeout(() => navigate(redirectPath, { replace: true }), 700);
   };
 
   return (
