@@ -15,14 +15,17 @@ export default function HomeCategoryPanel({ categories }) {
         {categories.map((category) => (
           <motion.div
             key={category.id}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             whileHover={{ y: -3, scale: 1.01 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
             className="w-full"
           >
             <button
               type="button"
-              onClick={() => navigate(category.route, { state: category.defaultComplaintCategory ? { defaultComplaintCategory: category.defaultComplaintCategory } : undefined })}
-              className="group flex h-full w-full flex-col overflow-hidden rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] text-left shadow-[var(--shadow)] transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--border)] focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
+              onClick={() => navigate(category.route, { state: category.defaultComplaintCategory ? { defaultComplaintCategory: category.defaultComplaintCategory, complaintType: category.defaultComplaintCategory } : undefined })}
+              className="group cursor-pointer flex h-full w-full flex-col overflow-hidden rounded-[16px] border border-[color:var(--border)] bg-[var(--surface)] text-left shadow-[var(--shadow)] transition-transform duration-200 hover:-translate-y-1 hover:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[var(--sidebar)]"
               aria-label={category.title}
             >
               <div className="overflow-hidden bg-[var(--surface-strong)]">

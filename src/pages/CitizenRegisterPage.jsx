@@ -90,8 +90,20 @@ export default function CitizenRegisterPage() {
         navigate(getRoleDashboardPath(data.user.role), { replace: true });
       }, 1200);
     } catch (error) {
-      setErrors({ submit: error.response?.data?.error || 'Registration failed. Please try again.' });
-      showToast.error('Registration Failed', error.response?.data?.error || 'We could not create your account right now. Please try again.');
+      // Network / connection errors have no response
+      if (!error.response) {
+        setErrors({ submit: 'Server unavailable. Please ensure the backend is running.' });
+        showToast.error('Server Unavailable', 'Cannot reach JanTrack backend. Please start the server and try again.');
+      } else if (error.response.status === 409) {
+        setErrors({ submit: 'Email already registered', duplicate: 'Email already registered' });
+        showToast.error('Registration Failed', 'Email already registered');
+      } else if (error.response.status === 400) {
+        setErrors({ submit: error.response.data?.error || 'Validation failed' });
+        showToast.error('Validation Error', error.response.data?.error || 'Please check the entered details.');
+      } else {
+        setErrors({ submit: error.response?.data?.error || 'Registration failed. Please try again.' });
+        showToast.error('Registration Failed', error.response?.data?.error || 'We could not create your account right now. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }

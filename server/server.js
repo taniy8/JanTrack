@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 import {
   getSeedStore,
   getAnalyticsSummary,
@@ -21,10 +22,10 @@ import {
 const app = express();
 const port = process.env.PORT || 5000;
 const jwtSecret = process.env.JWT_SECRET || 'jantrack-dev-secret';
-const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+const frontendOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173').split(',').map((entry) => entry.trim()).filter(Boolean);
 const store = getSeedStore();
 
-app.use(cors({ origin: frontendOrigin }));
+app.use(cors({ origin: frontendOrigins }));
 app.use(express.json());
 
 function authenticate(req, res, next) {

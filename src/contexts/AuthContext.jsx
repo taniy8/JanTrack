@@ -18,7 +18,11 @@ export function AuthProvider({ children }) {
 
     getCurrentUser()
       .then(({ data }) => setUser(data.user))
-      .catch(() => {
+      .catch((error) => {
+        // If backend is unreachable, inform user explicitly
+        if (!error.response) {
+          showToast.error('Server Unavailable', 'Cannot reach JanTrack backend. Some features may not work.');
+        }
         localStorage.removeItem('jtrack-token');
         setUser(null);
       });

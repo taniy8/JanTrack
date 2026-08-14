@@ -14,6 +14,7 @@ import {
   FiArchive,
   FiBarChart2,
   FiBell,
+  FiCheckCircle,
   FiClock,
   FiEye,
   FiFileText,
@@ -101,6 +102,39 @@ export const complaintCategories = [
     image: governmentOffices,
     route: '/complaint/new',
     defaultComplaintCategory: 'Government Offices',
+  },
+];
+
+export const recentActivityMock = [
+  {
+    id: 'activity-1',
+    title: 'New Road Damage complaint registered',
+    time: '2 min ago',
+    icon: FiMapPin,
+  },
+  {
+    id: 'activity-2',
+    title: 'Street Light complaint assigned to Public Works',
+    time: '15 min ago',
+    icon: FiUserCheck,
+  },
+  {
+    id: 'activity-3',
+    title: 'Garbage Collection complaint marked as Resolved',
+    time: '32 min ago',
+    icon: FiCheckCircle,
+  },
+  {
+    id: 'activity-4',
+    title: 'Water Supply complaint status updated',
+    time: '1 hr ago',
+    icon: FiClock,
+  },
+  {
+    id: 'activity-5',
+    title: 'Government Office complaint received',
+    time: '1 hr ago',
+    icon: FiFileText,
   },
 ];
 

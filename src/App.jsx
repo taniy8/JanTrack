@@ -37,6 +37,7 @@ import RoleProtectedRoute from './components/RoleProtectedRoute';
 import FeatureDetailPage from './pages/features/FeatureDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ToastProvider from './components/ToastProvider';
+import PageAnimations from './components/PageAnimations';
 import { BackToTopButton, FloatingQuickActions, ScrollProgress } from './components/ModernComponents';
 import OfficerDashboardPage from './pages/OfficerDashboardPage';
 import DepartmentDashboardPage from './pages/DepartmentDashboardPage';
@@ -63,7 +64,8 @@ function App() {
       <ToastProvider />
       <ScrollProgress />
       <Navbar />
-      <main>
+      <PageAnimations />
+      <main className="relative z-10">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/tracking" element={<TrackingPage />} />

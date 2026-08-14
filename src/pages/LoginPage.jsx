@@ -44,8 +44,14 @@ export default function LoginPage() {
       const redirectPath = !requestedPath || isLegacyDashboardPath ? getRoleDashboardPath(data.user.role) : requestedPath;
       window.setTimeout(() => navigate(redirectPath, { replace: true }), 700);
     } catch (error) {
-      setError('No account found for this email and password. Please register first.');
-      showToast.error('Invalid credentials', 'Email or password is incorrect.');
+      if (!error.response) {
+        setError('Server unavailable. Please ensure the backend is running.');
+        showToast.error('Server Unavailable', 'Cannot reach JanTrack backend. Please start the server and try again.');
+      } else {
+        const message = error?.response?.data?.error || 'Email or password is incorrect.';
+        setError(message);
+        showToast.error('Login Failed', message);
+      }
     }
   };
 

@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FiUploadCloud, FiCheckCircle, FiX, FiAlertCircle } from 'react-icons/fi';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import { useAuth } from '../contexts/AuthContext';
-import { createComplaintRemote } from '../services/jantrackApi';
+import { authRegister, createComplaintRemote } from '../services/jantrackApi';
 import { showToast } from '../utils/toast';
 
 const steps = ['Complaint Details', 'Evidence Upload', 'Review & Submit'];
@@ -25,9 +25,23 @@ const initialForm = {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const location = useLocation();
+  const { user, login } = useAuth();
   const [step, setStep] = useState(1);
-  const [form, setForm] = useState(initialForm);
+  // derive initial category from navigation state or url param
+  const incomingCategory = (location && (location.state?.complaintType || location.state?.defaultComplaintCategory)) || (location && new URLSearchParams(location.search).get('category')) || '';
+
+  const normalizeCategory = (val) => {
+    if (!val) return '';
+    if (categories.includes(val)) return val;
+    const alt = val.replace(/s$/i, '');
+    if (categories.includes(alt)) return alt;
+    const officeAlt = val.replace(/Offices$/i, 'Office');
+    if (categories.includes(officeAlt)) return officeAlt;
+    return val;
+  };
+
+  const [form, setForm] = useState({ ...initialForm, category: normalizeCategory(incomingCategory) });
   const [errors, setErrors] = useState({});
   const [files, setFiles] = useState([]);
   const [uploadState, setUploadState] = useState('');
@@ -104,7 +118,11 @@ export default function RegisterPage() {
       showToast.success('Complaint Submitted Successfully!', `Complaint ID: ${data.complaint.id}. You can now track your complaint in real time.`);
       window.setTimeout(() => navigate('/success', { state: { complaintId: data.complaint.id } }), 700);
     } catch (error) {
-      showToast.error('Submission Failed', error.response?.data?.error || 'Unable to submit complaint right now.');
+      if (!error.response) {
+        showToast.error('Server Unavailable', 'Cannot reach JanTrack backend. Please start the server and try again.');
+      } else {
+        showToast.error('Submission Failed', error.response?.data?.error || 'Unable to submit complaint right now.');
+      }
     }
   };
 

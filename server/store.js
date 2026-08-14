@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcryptjs';
 
 const initialUsers = [
   {
     id: 'user-admin',
     name: 'Aman Rao',
     email: 'admin@jtrack.gov.in',
-    password: 'password123',
+    password: bcrypt.hashSync('password123', 10),
     role: 'Admin',
     citizenId: 'ADM1004',
     status: 'Active',
@@ -16,7 +17,7 @@ const initialUsers = [
     id: 'user-officer',
     name: 'Rohan Mehta',
     email: 'officer@jtrack.gov.in',
-    password: 'password123',
+    password: bcrypt.hashSync('password123', 10),
     role: 'Officer',
     citizenId: 'OFF1002',
     status: 'Active',
@@ -27,7 +28,7 @@ const initialUsers = [
     id: 'user-citizen',
     name: 'Asha Patel',
     email: 'citizen@jtrack.gov.in',
-    password: 'password123',
+    password: bcrypt.hashSync('password123', 10),
     role: 'Citizen',
     citizenId: 'CTZ1001',
     status: 'Active',
@@ -221,7 +222,7 @@ export function createUserRecord(store, payload) {
     id: payload.id || `user-${Date.now()}`,
     name: payload.name,
     email: payload.email,
-    password: payload.password,
+    password: bcrypt.hashSync(payload.password || Math.random().toString(36).slice(-8), 10),
     role: payload.role || 'Citizen',
     citizenId: payload.citizenId || `CTZ${Date.now().toString().slice(-5)}`,
     status: payload.status || 'Active',
